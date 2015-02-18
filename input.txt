@@ -1,0 +1,10 @@
+newblock
+read u;
+read v;
+if u<v then
+	min:=u
+else
+	min:=v
+end;
+write min
+endblock

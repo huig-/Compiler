@@ -1,0 +1,47 @@
+package asint;
+
+import java_cup.runtime.*;
+import alex.AnalizadorLexicoTiny;
+import alex.UnidadLexica;
+import errors.GestionErroresTiny;
+
+scan with {: return getScanner().next_token(); :};
+parser code {: 
+   private GestionErroresTiny errores;
+   public void syntax_error(Symbol unidadLexica) {
+     errores.errorSintactico((UnidadLexica)unidadLexica);
+   }
+:};
+init with {: 
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   alex.fijaGestionErrores(errores);
+:};
+
+
+terminal     SEMI, NEW_BLOCK, END_BLOCK, IF, THEN, ELSE, END, REPEAT,
+	     UNTIL, IDEN, READ, WRITE, INT, BOOL, MENOR, EQ, MAS,
+	     MENOS, PROD, DIV, PAP, PCIERRE, NUMBER, TRUE, FALSE, IGUAL;
+
+non terminal  Programa, Secuencia_S, S, S_If, S_Repeat, S_Assign, S_Read, S_Write,
+			  S_Declare, Exp, Type, Exp_simple, Op_comp, Op_arit, Term, Op_mul, Factor;
+
+Programa    	::= Secuencia_S;
+Secuencia_S 	::= Secuencia_S SEMI S | NEW_BLOCK Secuencia_S SEMI S END_BLOCK | S;
+S		::= S_If | S_Repeat | S_Assign | S_Read | S_Write | S_Declare;
+S_If		::= IF Exp THEN Secuencia_S END | IF Exp THEN Secuencia_S ELSE Secuencia_S END;
+S_Repeat	::= REPEAT Secuencia_S UNTIL Exp;
+S_Assign	::= IDEN IGUAL Exp;
+S_Read		::= READ IDEN;
+S_Write		::= WRITE Exp;
+S_Declare	::= Type IDEN;
+Type		::= INT | BOOL;
+Exp		::= Exp_simple Op_comp Exp_simple | Exp_simple;
+Op_comp		::= MENOR | EQ;
+Exp_simple	::= Exp_simple Op_arit Term | Term;
+Op_arit		::= MAS | MENOS;
+Term		::= Term Op_mul Factor | Factor;
+Op_mul		::= PROD | DIV;
+Factor		::= PAP Exp PCIERRE | NUMBER | IDEN | TRUE | FALSE;
+
+
