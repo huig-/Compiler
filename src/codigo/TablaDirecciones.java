@@ -10,10 +10,12 @@ public class TablaDirecciones {
 	
 	public Hashtable<String,List<Var>> tabla;
 	private int ac_address;
+	private double var_nick;
 	
 	public TablaDirecciones() {
 		this.tabla = new Hashtable<String,List<Var>>();
 		this.ac_address = -1;
+		this.var_nick = -1;
 	}
 	
 	public int putIden(FactorId iden) {

@@ -4,6 +4,7 @@ public class Var {
 	
 	private String type;
 	private int address;
+	private int useless;
 	
 	public Var(String type, int address) {
 		this.type = type;
