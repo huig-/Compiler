@@ -11,6 +11,7 @@ public class TablaDirecciones {
 	public Hashtable<String,List<Var>> tabla;
 	private int ac_address;
 	private double var_nick;
+	private int variable_rocio;
 	
 	public TablaDirecciones() {
 		this.tabla = new Hashtable<String,List<Var>>();
